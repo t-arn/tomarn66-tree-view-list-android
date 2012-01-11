@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        maven {
+             url 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+        }
+        maven {
+           name 'Polidea repository'
+           credentials {
+             username = polideaRepoUsername
+             password = polideaRepoPassword
+           }
+           url 'https://dev.polidea.pl/artifactory/plugins-snapshot-local'
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath ('pl.polidea.gradle:PolideaBuildPlugin:4.1.0-SNAPSHOT') {
+            changing = true
+        }
+    }
+}
+
+apply plugin: 'polidea-project-configuration'
+apply plugin: 'polidea-mercurial'
+apply plugin: 'polidea-android-build'
+apply plugin: 'polidea-android-analysis'
+apply plugin: 'polidea-android-apphance'
+apply plugin: 'polidea-android-reports'
