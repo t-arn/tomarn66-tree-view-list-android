@@ -1,5 +1,8 @@
 package pl.polidea.treeview;
 
+// modified 2012-05 by Tom Arn (www.t-arn.com)
+// changes are marked with <ta> tags
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,7 +33,23 @@ public class InMemoryTreeStateManager<T> implements TreeStateManager<T> {
     private boolean visibleByDefault = true;
     private final transient Set<DataSetObserver> observers = new HashSet<DataSetObserver>();
 
+    //<ta>
+    private boolean bNotifyOnChange=true;
+    @Override
+    public void setNotifyOnChange(boolean notifyOnChange)
+    {
+      this.bNotifyOnChange = notifyOnChange;
+    }//setNotifyOnChange
+    @Override
+    public void notifyDataSetChanged ()
+    {
+      setNotifyOnChange(true);
+      refresh();
+    }//notifyDataSetChanged
+    //</ta>
+    
     private synchronized void internalDataSetChanged() {
+        if (!this.bNotifyOnChange) return; //<ta>
         visibleListCache = null;
         unmodifiableVisibleList = null;
         for (final DataSetObserver observer : observers) {
