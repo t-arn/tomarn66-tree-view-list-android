@@ -1,5 +1,8 @@
 package pl.polidea.treeview;
 
+// modified 2012-05 by Tom Arn (www.t-arn.com)
+// changes are marked with <ta> tags
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -190,4 +193,18 @@ public interface TreeStateManager<T> extends Serializable {
      * Refreshes views connected to the manager.
      */
     void refresh();
+    
+    //<ta>
+    /**
+     * Set to false to prevent that changes are automatically reflected in the attached view.
+     * This will prevent exceptions when updating the tree in an AsyncTask
+     * The default is true, and calling notifyDataSetChanged() resets the flag to true.
+     */
+    void setNotifyOnChange(boolean notifyOnChange);
+    
+    /**
+     * Calls setNotifyOnChange(true) and refresh()
+     */
+     void notifyDataSetChanged ();
+    //</ta>
 }
